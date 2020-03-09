@@ -13,7 +13,7 @@ resources:
       sourceArtifactory: demoArt  # replace with your Artifactory integration
       buildName: svc_build  # build name will be overwritten by pipeline name when used in Native steps
       buildNumber: 1  # build number will be overwritten by run number when used in Native steps
-      
+
 pipelines:
   - name: example_write_output_pipeline
     steps:
@@ -28,6 +28,7 @@ pipelines:
             - name: example_wo_repo
           integrations:
             - name: demoArt # replace with your Artifactory integration
+        execution:
           onStart:
             - add_run_variables commitSHA=res_example_wo_repo_commitSha
       - name: docker_push
@@ -46,5 +47,6 @@ pipelines:
             - name: docker_push
           outputResources:
             - name: build_info_wo
+        execution:
           onSuccess:
             - write_output build_info_dbp "commitSHA=$commitSHA"
