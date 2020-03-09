@@ -50,3 +50,12 @@ pipelines:
         execution:
           onSuccess:
             - write_output build_info_dbp "commitSHA=$commitSHA"
+
+      - name: check_write_output
+        type: Bash
+        configuration:
+          inputResources:
+            - name: build_info_wo
+        execution:
+          onExecute:
+            - echo $res_build_info_wo_commitSha
