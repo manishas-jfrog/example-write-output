@@ -7,20 +7,13 @@ resources:
       branches:
         include: master
 
-  - name: build_info_dbp
+  - name: build_info_wo
     type: BuildInfo
     configuration:
       sourceArtifactory: demoArt  # replace with your Artifactory integration
       buildName: svc_build  # build name will be overwritten by pipeline name when used in Native steps
       buildNumber: 1  # build number will be overwritten by run number when used in Native steps
-
-  - name: promoted_build_info_dbp
-    type: BuildInfo
-    configuration:
-      sourceArtifactory: demoArt  # replace with your Artifactory integration
-      buildName: svc_build  # build name will be overwritten by pipeline name when used in Native steps
-      buildNumber: 1  # build number will be overwritten by run number when used in Native steps
-
+      
 pipelines:
   - name: example_write_output_pipeline
     steps:
@@ -52,6 +45,6 @@ pipelines:
           inputSteps:
             - name: docker_push
           outputResources:
-            - name: build_info_dbp
+            - name: build_info_wo
           onSuccess:
-            - write_output build_info_dbp "commitSHA=$commitSHA"  
+            - write_output build_info_dbp "commitSHA=$commitSHA"
