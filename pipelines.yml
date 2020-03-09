@@ -30,7 +30,9 @@ pipelines:
             - name: demoArt # replace with your Artifactory integration
         execution:
           onStart:
+            - echo $res_example_wo_repo_commitSha
             - add_run_variables commitSHA=$res_example_wo_repo_commitSha
+
       - name: docker_push
         type: DockerPush
         configuration:
@@ -49,7 +51,9 @@ pipelines:
             - name: build_info_wo
         execution:
           onSuccess:
-            - write_output build_info_wo "commitSHA=$commitSHA"
+            - export_run_variables
+            - echo $commitSHA
+            - write_output build_info_wo "myCommitSHA=$commitSHA"
 
       - name: check_write_output
         type: Bash
@@ -58,4 +62,4 @@ pipelines:
             - name: build_info_wo
         execution:
           onExecute:
-            - echo $res_build_info_wo_commitSha
+            - echo $res_build_info_wo_myCommitSHA
